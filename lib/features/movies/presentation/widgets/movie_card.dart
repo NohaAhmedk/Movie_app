@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movie_app/core/config/theme/app_colors.dart';
 import 'package:movie_app/core/config/theme/app_text_styles.dart';
 import 'package:movie_app/core/config/theme/extentions/theme_extensions.dart';
+import 'package:movie_app/features/movies/presentation/widgets/movie_image.dart';
 import '../../data/models/movie_model.dart';
 
 class MovieCard extends StatelessWidget {
@@ -24,20 +25,7 @@ class MovieCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Poster placeholder
-              Container(
-                width: 100,
-                height: 130,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.image_not_supported_outlined,
-                  color: Colors.black38,
-                  size: 32,
-                ),
-              ),
+              MovieImage(posterPath: movie.posterPath),
               const SizedBox(width: 20),
 
               // Movie info
@@ -57,7 +45,7 @@ class MovieCard extends StatelessWidget {
                         const Icon(Icons.star,
                             color: AppColors.ratingStar, size: 16),
                         Text(
-                          " ${movie.rating}/10",
+                          " ${movie.voteAverage}/10",
                           style: AppTextStyles.small
                         ),
                       ],
@@ -79,8 +67,8 @@ class MovieCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          movie.genre,
-                          style: AppTextStyles.body
+                          movie.original_language,
+                          style: AppTextStyles.body,
                         ),
                       ),
                     ),

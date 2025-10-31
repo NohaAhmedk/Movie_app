@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/movies/presentation/screens/movies_screen.dart';
-import '../../features/movies/presentation/screens/movie_details_screen.dart';
+import '../../features/details/presentation/screens/movie_details_screen.dart';
 import '../../features/movies/data/models/movie_model.dart';
 
 class AppRouter {

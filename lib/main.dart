@@ -6,10 +6,12 @@ import 'package:movie_app/core/config/theme/theme_data/theme_data_light.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/config/theme/cubit/theme_cubit.dart';
 import 'core/config/theme/theme_data/theme_data_dark.dart';
+import 'core/di/di.dart';
 import 'core/routes/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupDependencies();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
