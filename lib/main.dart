@@ -8,10 +8,15 @@ import 'core/config/theme/cubit/theme_cubit.dart';
 import 'core/config/theme/theme_data/theme_data_dark.dart';
 import 'core/di/di.dart';
 import 'core/routes/app_router.dart';
+import 'package:hive_flutter/hive_flutter.dart'; // ← ده المهم
+import 'features/movies/data/models/movie_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupDependencies();
+  await Hive.initFlutter();
+
+  await Hive.openBox<MovieModel>('moviesBox');
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web

@@ -1,11 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieImage extends StatelessWidget {
   const MovieImage({
     super.key,
     required this.posterPath,
-    this.width = 100,  // default width
-    this.height = 150, // default height
+    this.width = 100,
+    this.height = 130,
   });
 
   final String posterPath;
@@ -14,32 +15,19 @@ class MovieImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.network(
-        'https://image.tmdb.org/t/p/w500/$posterPath',
-        width: width,
-        height: height,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => Container(
-          width: width,
-          height: height,
-          color: Colors.grey[300],
-          child: const Icon(Icons.broken_image, color: Colors.grey),
+    return Container(
+      width: width,
+      height: height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: CachedNetworkImage(
+          imageUrl: 'https://image.tmdb.org/t/p/w500/$posterPath',
+          placeholder: (context, url) =>
+          const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) =>
+          const Icon(Icons.image_not_supported),
+          fit: BoxFit.cover,
         ),
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            width: width,
-            height: height,
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes!)
-                  : null,
-            ),
-          );
-        },
       ),
     );
   }

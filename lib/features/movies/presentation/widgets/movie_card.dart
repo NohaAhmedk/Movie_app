@@ -14,17 +14,29 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         GoRouter.of(context).push('/MovieDetailsScreen', extra: movie);
       },
-      child: Card(
-
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 12,
+              spreadRadius: 2,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(10),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Movie Image
               MovieImage(posterPath: movie.posterPath),
               const SizedBox(width: 20),
 
@@ -32,43 +44,47 @@ class MovieCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       movie.title,
-                      style: AppTextStyles.subtitle
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.subtitle.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
 
-                    // Rating row
                     Row(
                       children: [
                         const Icon(Icons.star,
                             color: AppColors.ratingStar, size: 16),
+                        const SizedBox(width: 4),
                         Text(
-                          " ${movie.voteAverage}/10",
-                          style: AppTextStyles.small
+                          "${movie.voteAverage}/10",
+                          style: AppTextStyles.small,
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
 
-                    // Genre tag
-                    Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        side: const BorderSide(
+                    Container(
+                      decoration: BoxDecoration(
+                        color: context.customColors.secondaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
                           color: AppColors.grey200,
-                          width: 1,
                         ),
                       ),
-                      color: context.customColors.secondaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          movie.original_language,
-                          style: AppTextStyles.body,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 10),
+                      child: Text(
+                        movie.original_language.toUpperCase(),
+                        style: AppTextStyles.body.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -76,11 +92,10 @@ class MovieCard extends StatelessWidget {
                 ),
               ),
 
-              // Arrow
-              const Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Icon(Icons.arrow_forward_ios,
-                    size: 18, color: Colors.grey),
+              // Centered Arrow Icon
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 20,
               ),
             ],
           ),
