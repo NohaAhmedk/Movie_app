@@ -58,8 +58,11 @@ class MovieCubit extends Cubit<MovieState> {
           emit(MovieLoaded(List.from(movies)));
         } else {
           // Show error if no movies
-          emit(MovieError(
-              err.message != null ? err.message! : 'Something went wrong'));
+          emit(
+            MovieError(
+              err.message != null ? err.message! : 'Something went wrong',
+            ),
+          );
         }
       },
     );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:movie_app/core/config/theme/theme_data/theme_data_light.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'core/config/theme/cubit/theme_cubit.dart';
 import 'core/config/theme/theme_data/theme_data_dark.dart';
 import 'core/di/di.dart';
@@ -22,8 +23,23 @@ Future<void> main() async {
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
-  runApp(const MovieApp());
-}
+  if (kReleaseMode) {
+    await SentryFlutter.init(
+          (options) {
+        options.dsn =
+        'https://025c3526beed767249c899b353aee048@o4510286938439680.ingest.us.sentry.io/4510286939488256';
+        options.sendDefaultPii = true;
+      },
+      appRunner: () =>
+          runApp(
+            SentryWidget(
+              child: MovieApp(),
+            ),
+          ),
+    );
+  } else {
+    runApp(const MovieApp());
+  }}
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
